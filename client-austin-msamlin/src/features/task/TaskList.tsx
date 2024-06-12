@@ -4,11 +4,13 @@ import { AppDispatch, RootState } from '../../app/store';
 import { editTask, deleteTask, updateSort } from './taskSlice';
 import { batchAddTasks, fetchTasks, useBatchAddMutation } from './taskApi';
 
-const  TaskList: React.FC = () => {
+const TaskList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch: AppDispatch = useAppDispatch();
-  const  taskList = useAppSelector((state: RootState)=> state.tasks);
-  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(null);
+  const taskList = useAppSelector((state: RootState) => state.tasks);
+  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(
+    null,
+  );
 
   const userCheckRef = React.useRef(taskList); // ref to store state value
   const [batchAdd] = useBatchAddMutation();
@@ -22,19 +24,16 @@ const  TaskList: React.FC = () => {
     return () => {
       // const tasksToSave = userCheckRef.current;
 
-
-
       dispatch(batchAddTasks()); // pass current ref value
-
     };
   }, [batchAdd, dispatch, taskList]);
 
   useEffect(() => {
-    setLoading(true)
-    dispatch(fetchTasks())
-    setLoading(false)
-  }, [dispatch])
-  
+    setLoading(true);
+    dispatch(fetchTasks());
+    setLoading(false);
+  }, [dispatch]);
+
   const onDragStart = (index: number) => {
     setDraggedItemIndex(index);
   };
@@ -56,31 +55,37 @@ const  TaskList: React.FC = () => {
 
   return (
     <div>
-      {loading ? 'loading...': taskList.map((task) => (
-        <div 
-          key={task.sortOrder}
-          onDragStart={() => onDragStart(task.sortOrder)}
-          onDragOver={() => onDragOver(task.sortOrder)}
-          onDragEnd={onDragEnd}
-          // draggable
-          style={{
-            padding: '8px',
-            margin: '8px 0',
-            backgroundColor: draggedItemIndex === task.sortOrder ? 'green' : 'lightgray',
-            cursor: 'grab'
-          }}
-        >
-          <input
-            type="text"
-            value={task.message}
-            onChange={(e) => dispatch(editTask({ id: task.id, message: e.target.value }))} />
-          <button onClick={() => dispatch(deleteTask({id: task.id}))}>X</button>
-        </div>
-      ))
-      }
+      {loading
+        ? 'loading...'
+        : taskList.map((task) => (
+            <div
+              key={task.sortOrder}
+              onDragStart={() => onDragStart(task.sortOrder)}
+              onDragOver={() => onDragOver(task.sortOrder)}
+              onDragEnd={onDragEnd}
+              // draggable
+              style={{
+                padding: '8px',
+                margin: '8px 0',
+                backgroundColor:
+                  draggedItemIndex === task.sortOrder ? 'green' : 'lightgray',
+                cursor: 'grab',
+              }}
+            >
+              <input
+                type="text"
+                value={task.message}
+                onChange={(e) =>
+                  dispatch(editTask({ id: task.id, message: e.target.value }))
+                }
+              />
+              <button onClick={() => dispatch(deleteTask({ id: task.id }))}>
+                X
+              </button>
+            </div>
+          ))}
     </div>
-  )
-}
+  );
+};
 
-export default  TaskList;
-
+export default TaskList;

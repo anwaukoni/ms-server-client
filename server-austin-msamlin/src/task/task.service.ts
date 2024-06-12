@@ -50,9 +50,9 @@ export class TaskService {
         (existingTask) => existingTask.id === task.id,
       );
       if (existingTask) {
-        updateTasks.push(task); // if task exists in database, add to updateTasks
+        updateTasks.push(task);
       } else {
-        newTasks.push(task); // if task does not exist in database, add to newTasks
+        newTasks.push(task);
       }
     });
 
@@ -69,7 +69,7 @@ export class TaskService {
     }
 
     if (updateTasks.length > 0) {
-      // update all tasks
+      // create update values
       const updateValues = updateTasks.map((task) => {
         return `('${task.sortOrder}', '${task.message}')`;
       });

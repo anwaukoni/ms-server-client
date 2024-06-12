@@ -8,7 +8,6 @@ import Login from './features/auth/Login';
 import RequireAuth from './features/auth/RequireAuth';
 import Welcome from './features/auth/Welcome';
 
-
 function App() {
   return (
     <Routes>
@@ -22,9 +21,8 @@ function App() {
           <Route path="welcome" element={<Welcome />} />
           <Route path="task" element={<Task />} />
         </Route>
-
       </Route>
     </Routes>
-  )
+  );
 }
 export default App;

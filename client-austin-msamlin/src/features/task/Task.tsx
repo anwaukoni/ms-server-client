@@ -8,9 +8,11 @@ const Task = () => {
       <h1> Task Page </h1>
       <TaskInput />
       <TaskList />
-      <p><Link to="/welcome">Go to Welcome Page</Link></p>
+      <p>
+        <Link to="/welcome">Go to Welcome Page</Link>
+      </p>
     </>
-  )
-}
+  );
+};
 
 export default Task;

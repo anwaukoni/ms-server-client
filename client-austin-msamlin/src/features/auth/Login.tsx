@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,22 +15,22 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation()
-  const dispatch = useDispatch()
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    userRef.current?.focus()
-  }, [])
+    userRef.current?.focus();
+  }, []);
 
   useEffect(() => {
-    setErrMsg('')
-  }, [email, password])
+    setErrMsg('');
+  }, [email, password]);
 
-  const handleSubmit = async (e:any) => {
-    e.preventDefault()
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
 
     try {
-      const data = await login({ email, password }).unwrap()
+      const data = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...data, user: email }));
       setEmail('');
       setPassword('');
@@ -40,16 +39,31 @@ const Login = () => {
       setErrMsg('Login Failed');
       errRef.current?.focus();
     }
-  }
+  };
 
-  const handleEmailInput = (e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)
-  const handlePasswordInput = (e: { target: { value: SetStateAction<string>; }; }) => setPassword(e.target.value)
-  const handleFirstNameInput = (e: { target: { value: SetStateAction<string>; }; }) => setFirstName(e.target.value)
-  const handleLastNameInput = (e: { target: { value: SetStateAction<string>; }; }) => setLastName(e.target.value)
+  const handleEmailInput = (e: { target: { value: SetStateAction<string> } }) =>
+    setEmail(e.target.value);
+  const handlePasswordInput = (e: {
+    target: { value: SetStateAction<string> };
+  }) => setPassword(e.target.value);
+  const handleFirstNameInput = (e: {
+    target: { value: SetStateAction<string> };
+  }) => setFirstName(e.target.value);
+  const handleLastNameInput = (e: {
+    target: { value: SetStateAction<string> };
+  }) => setLastName(e.target.value);
 
-  const content = isLoading ? <h1>Loading...</h1> : (
+  const content = isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
     <section className="login">
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <p
+        ref={errRef}
+        className={errMsg ? 'errmsg' : 'offscreen'}
+        aria-live="assertive"
+      >
+        {errMsg}
+      </p>
 
       <h1>Login OR Sign UP</h1>
       <form onSubmit={handleSubmit}>
@@ -93,11 +107,13 @@ const Login = () => {
           required
         />
         <button>Sign In</button>
-        <button type="button" onClick={handleSubmit}>Sign Up</button>
+        <button type="button" onClick={handleSubmit}>
+          Sign Up
+        </button>
       </form>
     </section>
-  )
+  );
 
-  return content
-}
-export default Login
+  return content;
+};
+export default Login;

@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface Task {
   [x: string]: any;
@@ -8,7 +8,7 @@ export interface Task {
 }
 
 export const taskSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState: [] as Task[],
   reducers: {
     addTasks: (state, action: PayloadAction<Task[]>) => {
@@ -16,18 +16,24 @@ export const taskSlice = createSlice({
     },
     addTask: (state, action: PayloadAction<string>) => {
       const previousTasks = state;
-      const highestId = previousTasks.length > 0 ? previousTasks.sort((a,b) => b.sortOrder - a.sortOrder)[0] : 0;
+      const highestId =
+        previousTasks.length > 0
+          ? previousTasks.sort((a, b) => b.sortOrder - a.sortOrder)[0]
+          : 0;
 
       state.push({
-        id: highestId ? highestId.sortOrder + 1 : highestId ,
+        id: highestId ? highestId.sortOrder + 1 : highestId,
         message: action.payload,
         sortOrder: state.length,
-      })
+      });
     },
     deleteTask: (state, action: PayloadAction<{ id: number }>) => {
-      return state.filter((task) => task.id !== action.payload.id)
+      return state.filter((task) => task.id !== action.payload.id);
     },
-    editTask: (state, action: PayloadAction<{ id: number, message: string }>) => {
+    editTask: (
+      state,
+      action: PayloadAction<{ id: number; message: string }>,
+    ) => {
       const { id, message } = action.payload;
       const task = state.find((task) => task.id === id);
       if (task) {
@@ -67,10 +73,11 @@ export const taskSlice = createSlice({
       //     state.splice(currentPosition, 1); // remove from old position
       //   }
       // }
-    }
-  }
+    },
+  },
 });
 
-export const { addTasks, addTask, deleteTask, editTask, updateSort } = taskSlice.actions;
+export const { addTasks, addTask, deleteTask, editTask, updateSort } =
+  taskSlice.actions;
 
 export default taskSlice.reducer;
